@@ -174,8 +174,10 @@ Game.GameState.prototype = {
 	    // handle the left and right movement of the hero
 	    if( this.cursor.left.isDown ) {
 	      this.ninja.body.velocity.x = -200;
+	      this.ninja.scale.setTo(-0.5);
 	    } else if( this.cursor.right.isDown ) {
 	      this.ninja.body.velocity.x = 200;
+	      this.ninja.scale.setTo(0.5);
 	    } else {
 	      this.ninja.body.velocity.x = 0;
 	    }

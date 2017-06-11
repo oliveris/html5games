@@ -20,6 +20,16 @@ Game.Preloader.prototype = {
 
 		this.load.image('playBtn', 'assets/images/play-btn.png');
 
+		//  Firefox doesn't support mp3 files, so use ogg
+    	this.game.load.audio('gameMusic', [
+    		'assets/sounds/game-music-trim.mp3', 
+    		'assets/sounds/game-music-trim.ogg'
+    		]
+		);
+
+		// load the speaker icon
+		this.load.image('speakerBtn', 'assets/images/speaker-icon.png');
+
 		// LOAD ALL ASSETS FOR GAME STATE
 
 		// when loading an image you need to state an image key and path tot he image
