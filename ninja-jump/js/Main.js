@@ -11,6 +11,9 @@ window.onload = function() {
 	// add the preloader
 	game.state.add('Preloader', Game.Preloader);
 
+	// add the start screen
+	game.state.add('StartScreen', Game.StartScreen);
+
 	// add the game
 	game.state.add('GameState', Game.GameState);
 

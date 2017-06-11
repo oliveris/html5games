@@ -16,7 +16,11 @@ Game.Preloader.prototype = {
 
 		this.load.setPreloadSprite(this.preloadBar);
 
-		// LOAD ALL ASSETS
+		// LOAD ALL ASSETS FOR START SCREEN
+
+		this.load.image('playBtn', 'assets/images/play-btn.png');
+
+		// LOAD ALL ASSETS FOR GAME STATE
 
 		// when loading an image you need to state an image key and path tot he image
 		this.load.image('background', 'assets/images/background2.jpg');
@@ -33,7 +37,8 @@ Game.Preloader.prototype = {
 
 	create:function() {
 
-		this.state.start('GameState');
+		this.state.start('StartScreen');
+		// this.state.start('GameState');
 
 	}
 
