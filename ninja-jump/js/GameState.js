@@ -173,18 +173,16 @@ Game.GameState.prototype = {
   	heroMove: function() {
 	    // handle the left and right movement of the hero
 	    if( this.cursor.left.isDown ) {
-	      this.ninja.body.velocity.x = -200;
-	      this.ninja.scale.setTo(-0.5);
+	      	this.ninja.body.velocity.x = -200;
 	    } else if( this.cursor.right.isDown ) {
-	      this.ninja.body.velocity.x = 200;
-	      this.ninja.scale.setTo(0.5);
+	      	this.ninja.body.velocity.x = 200;
 	    } else {
-	      this.ninja.body.velocity.x = 0;
+	      	this.ninja.body.velocity.x = 0;
 	    }
 
 	    // handle hero jumping
 	    if( this.cursor.up.isDown && this.ninja.body.touching.down ) {
-	      this.ninja.body.velocity.y = -350;
+	      	this.ninja.body.velocity.y = -350;
 	    } 
 	    
 	    // wrap world coordinated so that you can warp from left to right and right to left
