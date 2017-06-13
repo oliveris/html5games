@@ -22,28 +22,13 @@ Game.Preloader.prototype = {
 
 		this.load.image('startBackground', 'assets/images/start-background.jpg');
 
-		//  Firefox doesn't support mp3 files, so use ogg
-  //   	this.game.load.audio('gameMusic', [
-  //   		'assets/sounds/game-music-trim.mp3', 
-  //   		'assets/sounds/game-music-trim.ogg'
-  //   		]
-		// );
-
-		// load the speaker icon
-		// this.load.image('speakerBtn', 'assets/images/speaker-icon.png');
-
 		// LOAD ALL ASSETS FOR GAME STATE
 
-		// when loading an image you need to state an image key and path tot he image
-		// this.load.image('background', 'assets/images/background2.jpg');
+		// load the game background
+		this.load.image('gameBackground', 'assets/images/game-background.jpg');
 
-		// load the ninja
-		// this.load.image('ninja', 'assets/images/ninja.png');
-
-		// add the ninja star
-		// this.load.image('ninjaStar', 'assets/images/ninja-star.png');
-
-		// this.load.image( 'pixel', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/pixel_1.png' );
+		// load the player sprite
+		this.load.image('player', 'assets/images/player.png');
 
 	},
 

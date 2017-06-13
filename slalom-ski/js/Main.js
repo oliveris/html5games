@@ -15,7 +15,7 @@ window.onload = function() {
 	game.state.add('StartScreen', Game.StartScreen);
 
 	// add the game
-	// game.state.add('GameState', Game.GameState);
+	game.state.add('GameState', Game.GameState);
 
 	// launch the game
 	game.state.start('Boot');
