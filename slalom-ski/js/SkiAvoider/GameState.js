@@ -53,16 +53,17 @@ Game.GameState.prototype = {
 		if (playerDirection == 'start') {
 			this.player.body.velocity.x = -300;
 			playerDirection = 'left';
-			console.log(playerDirection);
 		} else if (playerDirection == 'left') {
 			this.player.body.velocity.x = 300;
+			this.player.scale.setTo(-1, 1);
 			playerDirection = 'right';
-			console.log(playerDirection);
 		} else if (playerDirection == 'right') {
 			this.player.body.velocity.x = -300;
+			this.player.scale.setTo(1, 1);
 			playerDirection = 'left';
-			console.log(playerDirection);
 		}
   	},
+
+
 
 };
