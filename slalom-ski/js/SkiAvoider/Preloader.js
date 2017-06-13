@@ -30,6 +30,9 @@ Game.Preloader.prototype = {
 		// load the player sprite
 		this.load.image('player', 'assets/images/player.png');
 
+		// load the flag sprite
+		this.load.image('flag', 'assets/images/flag.png');
+
 	},
 
 	create:function() {
