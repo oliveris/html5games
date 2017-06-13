@@ -1,7 +1,6 @@
 Game.GameState = function(game){};
 
 var playerDirection = 'start';
-var flags;
 
 // define the game state
 Game.GameState.prototype = {
@@ -18,23 +17,21 @@ Game.GameState.prototype = {
 		// create a tiled sprite background
     	tileSprite = this.game.add.tileSprite(0, 0, 700, 1000, 'gameBackground');
 
-		// create hero
+    	// create first set of flags
+    	this.flagsGroupCreate();
+
+    	//  Create our Timer
+	    timer = this.game.time.create(false);
+
+	    //  Set a TimerEvent to occur after 2 seconds
+	    timer.loop(4000, this.flagsCreate, this);
+
+	    //  Start the timer running - this is important!
+	    //  It won't start automatically, allowing you to hook it to button events and the like.
+	    timer.start();
+
+	    // create hero
     	this.heroCreate();
-
-    	// this.flagCreateOne(0, this.player.x, this.player.y + 500);
-    	this.getRandomPositionX();
-    	console.log(this.randX);
-
-    	// need to work out the best position for the second flag
-    	this.getSecondPositionX();
-    	console.log(this.secondX);
-
-    	// create the flags
-    	this.pointsX = [
-    		this.randX,
-    		this.secondX
-    	];
-    	this.flagsCreate(this.pointsX);
 	},
 
 	/**
@@ -42,10 +39,15 @@ Game.GameState.prototype = {
 	 * executed multiple times per second - used for collision detection
 	 */
 	update: function() {
-
 		// detect when the mouse is clicked down
 		this.game.input.onDown.add(this.doPlayerMovement, this);
 
+		// flags group movement
+		var i;    
+		for (i = 0; i < this.flagGroup.length; i++)     
+		{ 
+			this.flagGroup['children'][i].y -= 1;
+		}
 	},
 
 	heroCreate: function() {
@@ -55,7 +57,6 @@ Game.GameState.prototype = {
 		this.player.scale.setTo(1);
 
 	    // hero collision setup
-	    // disable all collisions except for down
 	    this.physics.arcade.enable( this.player );
 	    this.player.body.collideWorldBounds = true;
 	    // this.player.body.gravity.y = 500;
@@ -80,31 +81,31 @@ Game.GameState.prototype = {
 		}
   	},
 
-  	flagsCreate: function(points) {
+  	flagsGroupCreate: function() {
+    	//  Here we create the group
+    	this.flagGroup = this.game.add.group();
+    	this.physics.arcade.enable( this.flagGroup );
+  	},
 
-  		for (var i = 0; i < points.length; i++) {
-		    // flag basic set up
-	  		this.flag = this.game.add.sprite(points[i], this.world.width - 100, 'flag');
-			this.flag.anchor.setTo(0.5, 0.5);
-			this.flag.scale.setTo(1);
+  	flagsCreate: function() {
+  		// this.flagCreateOne(0, this.player.x, this.player.y + 500);
+    	this.getRandomPositionX();
 
-			this.physics.arcade.enable( this.flag );
-	    	this.flag.body.collideWorldBounds = true;
-			this.flag.body.velocity.y = - 200;
+    	// need to work out the best position for the second flag
+    	this.getSecondPositionX();
+
+    	// create the flags
+    	this.pointsX = [
+    		this.randX,
+    		this.secondX
+    	];
+
+  		for (var i = 0; i < this.pointsX.length; i++) {
+		    this.flagGroup.create(this.pointsX[i], this.game.world.height, 'flag');
 		}
 
-  		// flag basic set up
-  // 		this.flag = this.game.add.sprite(x, y, 'flag');
-		// this.flag.anchor.setTo(0.5, 0.5);
-		// this.flag.scale.setTo(1);
-
-		// this.game.physics.enable(this.flag, Phaser.Physics.ARCADE)
-		// this.flag.body.immovable = true;
-		// this.flag.body.collideWorldBounds = true;
-
-		// this.flagTween = this.game.add.tween(this.flag).to({
-		// 	y: this.flag.y + 25
-		// }, 2000, 'Linear', true, 0, 100, true);
+		// remove old flags if past a certain point
+    	this.destroyOldFlags();
   	},
 
   	getRandomPositionX: function() {
@@ -121,6 +122,22 @@ Game.GameState.prototype = {
   		} else {
   			this.secondX = this.randX - 200;
   		}
-  	}
+  	},
+
+	destroyOldFlags: function() {
+		var i;    
+		for (i = 0; i < this.flagGroup.length; i++)     
+		{        
+			if (this.flagGroup['children'][i].y < 0) {
+				this.flagGroup['children'][i].destroy();
+				console.log('flag destroyed');
+			}
+			if (this.flagGroup['children'][i].y < 0) {
+				this.flagGroup['children'][i].destroy();
+				console.log('flag destroyed');
+			}
+			console.log(this.flagGroup['children'][i].y);
+		}
+	}  	
 
 };
