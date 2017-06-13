@@ -3,7 +3,7 @@
 window.onload = function() {
 	// initiate the Phaser framework
 	// var game = new Phaser.Game(640, 360, Phaser.AUTO);
-	var game = new Phaser.Game( 360, 640, Phaser.CANVAS, '' );
+	var game = new Phaser.Game( 360, 640, Phaser.CANVAS, 'game-container' );
 
 	// add the boot
 	game.state.add('Boot', Game.Boot);
