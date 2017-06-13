@@ -1,15 +1,6 @@
 Game.GameState = function(game){};
 
-var lives = 3;
-var livesString = '';
-var livesText;
-
-var score = 0;
-var scoreString = '';
-var scoreText;
-
-var stateText;
-var godMode = false;
+var playerDirection = 'start';
 
 // define the game state
 Game.GameState.prototype = {
@@ -36,6 +27,9 @@ Game.GameState.prototype = {
 	 */
 	update: function() {
 
+		// detect when the mouse is clicked down
+		this.game.input.onDown.add(this.doPlayerMovement, this);
+
 	},
 
 	heroCreate: function() {
@@ -46,12 +40,29 @@ Game.GameState.prototype = {
 
 	    // hero collision setup
 	    // disable all collisions except for down
-	    // this.physics.arcade.enable( this.player );
-	    // this.player.body.collideWorldBounds = true;
+	    this.physics.arcade.enable( this.player );
+	    this.player.body.collideWorldBounds = true;
 	    // this.player.body.gravity.y = 500;
 	    // this.player.body.checkCollision.up = false;
 	    // this.player.body.checkCollision.left = false;
 	    // this.player.body.checkCollision.right = false;
+  	},
+
+  	doPlayerMovement: function() {
+  		// check the direction status
+		if (playerDirection == 'start') {
+			this.player.body.velocity.x = -300;
+			playerDirection = 'left';
+			console.log(playerDirection);
+		} else if (playerDirection == 'left') {
+			this.player.body.velocity.x = 300;
+			playerDirection = 'right';
+			console.log(playerDirection);
+		} else if (playerDirection == 'right') {
+			this.player.body.velocity.x = -300;
+			playerDirection = 'left';
+			console.log(playerDirection);
+		}
   	},
 
 };
