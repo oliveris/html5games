@@ -2,6 +2,10 @@ Game.GameState = function(game){};
 
 var playerDirection = 'start';
 
+var score = 0;
+var scoreString = '';
+var scoreText;
+
 // define the game state
 Game.GameState.prototype = {
 
@@ -30,6 +34,13 @@ Game.GameState.prototype = {
 	    //  It won't start automatically, allowing you to hook it to button events and the like.
 	    timer.start();
 
+	    // writing the score
+    	scoreString = 'Distance Traveled : ';
+    	scoreText = this.game.add.text(10, 10, scoreString + score, { 
+    		font: '32px Arial', 
+    		fill: '#000000' 
+    	});
+
 	    // create hero
     	this.heroCreate();
 	},
@@ -43,11 +54,7 @@ Game.GameState.prototype = {
 		this.game.input.onDown.add(this.doPlayerMovement, this);
 
 		// flags group movement
-		var i;    
-		for (i = 0; i < this.flagGroup.length; i++)     
-		{ 
-			this.flagGroup['children'][i].y -= 1;
-		}
+		this.doFlagsMovement();
 	},
 
 	heroCreate: function() {
@@ -81,6 +88,14 @@ Game.GameState.prototype = {
 		}
   	},
 
+  	doFlagsMovement: function() {
+  		var i;    
+		for (i = 0; i < this.flagGroup.length; i++)     
+		{ 
+			this.flagGroup['children'][i].y -= 1;
+		}
+  	},
+
   	flagsGroupCreate: function() {
     	//  Here we create the group
     	this.flagGroup = this.game.add.group();
@@ -109,18 +124,18 @@ Game.GameState.prototype = {
   	},
 
   	getRandomPositionX: function() {
-  		this.randX = Math.floor(Math.random() * this.world.width) + 0;
+  		this.randX = Math.floor(Math.random() * this.world.width - 50) + 50;
   	},
 
   	getSecondPositionX: function() {
 		// need to work out if the randx is closer to the left or the right
   		if (this.randX < this.game.world.centerX) {
   			// if closer to the left we + 100
-  			this.secondX = this.randX + 200;
+  			this.secondX = this.randX + 300;
   		} else if (this.randX > this.game.world.centerX) {
-  			this.secondX = this.randX - 200;
+  			this.secondX = this.randX - 300;
   		} else {
-  			this.secondX = this.randX - 200;
+  			this.secondX = this.randX - 300;
   		}
   	},
 
@@ -128,11 +143,11 @@ Game.GameState.prototype = {
 		var i;    
 		for (i = 0; i < this.flagGroup.length; i++)     
 		{        
-			if (this.flagGroup['children'][i].y < 0) {
+			if (this.flagGroup['children'][i].y <= 50) {
 				this.flagGroup['children'][i].destroy();
 				console.log('flag destroyed');
 			}
-			if (this.flagGroup['children'][i].y < 0) {
+			if (this.flagGroup['children'][i].y <= 50) {
 				this.flagGroup['children'][i].destroy();
 				console.log('flag destroyed');
 			}
