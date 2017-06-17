@@ -6,6 +6,12 @@ var score = 0;
 var scoreString = '';
 var scoreText;
 
+var lives = 3;
+var livesString = '';
+var liveText;
+
+var godMode = false;
+
 // define the game state
 Game.GameState.prototype = {
 
@@ -40,12 +46,8 @@ Game.GameState.prototype = {
 	    //  It won't start automatically, allowing you to hook it to button events and the like.
 	    timer.start();
 
-	    // writing the score
-    	scoreString = 'Distance Traveled : ';
-    	scoreText = this.game.add.text(10, 10, scoreString + score, { 
-    		font: '32px Arial', 
-    		fill: '#000000' 
-    	});
+	    // write the distance travelled and live on the game
+	    this.drawText();
 	},
 
 	/**
@@ -61,6 +63,15 @@ Game.GameState.prototype = {
 
 		// tree group movement
 		this.doTreesMovement();
+
+		// detect collision between the ninja star and the ninja 
+	    // this.game.physics.arcade.overlap(this.treeGroup, this.player, function() {
+	    // 	this.enemyHitsPlayer()
+	    // }, null, this);
+	    if (this.game.physics.arcade.collide(this.player, this.treeGroup, this.enemyHitsPlayer, this.processHandler, this))
+	    {
+	        console.log('boom');
+	    }
 	},
 
 	heroCreate: function() {
@@ -130,12 +141,12 @@ Game.GameState.prototype = {
 		this.getTreePosition();
 		// test if tree position came back as an array or not
 		if (Array.isArray(this.treePosition)) {
-			console.log('Tree position is array');
+			// console.log('Tree position is array');
 			for (var i = 0; i < this.treePosition.length; i++) {
 			    this.treeGroup.create(this.treePosition[i], this.game.world.height, 'tree');
 			}
 		} else {
-			console.log('Tree position is not an array');
+			// console.log('Tree position is not an array');
 			this.treeGroup.create(this.treePosition, this.game.world.height, 'tree');
 		}
 
@@ -173,7 +184,8 @@ Game.GameState.prototype = {
   	treesGroupCreate: function() {
     	//  Here we create the group
     	this.treeGroup = this.game.add.group();
-    	this.physics.arcade.enable( this.treeGroup );
+    	// this.physics.arcade.enable( this.treeGroup );
+    	this.treeGroup = this.game.add.physicsGroup();
   	},
 
   	getTreePosition: function() {
@@ -231,6 +243,49 @@ Game.GameState.prototype = {
 			}
 			// console.log(this.treeGroup['children'][i].y);
 		}
-	}  	  	
+	},
+
+	drawText: function() {
+		// writing the score
+    	scoreString = 'Distance Traveled : ';
+    	scoreText = this.game.add.text(10, 10, scoreString + score, { 
+    		font: '22px Arial', 
+    		fill: '#000000' 
+    	});
+
+    	//  Lives
+	    livesString = 'Lives : ';
+	    livesText = this.game.add.text(this.game.world.width - 100, 10, livesString + lives, { 
+	    	font: '22px Arial', 
+	    	fill: '#000000' 
+	    });
+	},
+
+	enemyHitsPlayer: function(player, tree) {
+
+		tree.kill();
+
+	    if (godMode !== true) {
+	    	//  decrease the lives
+		    lives -= 1;
+		    livesText.text = livesString + lives;
+		    godMode = true;
+	    }
+
+	    this.game.time.events.add(Phaser.Timer.SECOND * 4, this.loseGodMode, this);
+
+	    // if lives ==0
+	    if (lives === 0) {
+	    	// go to the game over screen
+	    }
+	},
+
+	loseGodMode: function() {
+		godMode = false;
+	},
+
+	processHandler: function() {
+		return true;
+	}
 
 };
