@@ -33,6 +33,9 @@ Game.Preloader.prototype = {
 		// load the flag sprite
 		this.load.image('flag', 'assets/images/flag.png');
 
+		// load the trees
+		this.load.image('tree', 'assets/images/tree.png');
+
 	},
 
 	create:function() {

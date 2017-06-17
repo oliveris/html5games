@@ -21,14 +21,20 @@ Game.GameState.prototype = {
 		// create a tiled sprite background
     	tileSprite = this.game.add.tileSprite(0, 0, 700, 1000, 'gameBackground');
 
+    	// create hero
+    	this.heroCreate();
+
     	// create first set of flags
     	this.flagsGroupCreate();
+
+    	// create the tree group
+    	this.treesGroupCreate();
 
     	//  Create our Timer
 	    timer = this.game.time.create(false);
 
 	    //  Set a TimerEvent to occur after 2 seconds
-	    timer.loop(4000, this.flagsCreate, this);
+	    timer.loop(5000, this.flagsCreate, this);
 
 	    //  Start the timer running - this is important!
 	    //  It won't start automatically, allowing you to hook it to button events and the like.
@@ -40,9 +46,6 @@ Game.GameState.prototype = {
     		font: '32px Arial', 
     		fill: '#000000' 
     	});
-
-	    // create hero
-    	this.heroCreate();
 	},
 
 	/**
@@ -55,6 +58,9 @@ Game.GameState.prototype = {
 
 		// flags group movement
 		this.doFlagsMovement();
+
+		// tree group movement
+		this.doTreesMovement();
 	},
 
 	heroCreate: function() {
@@ -92,7 +98,7 @@ Game.GameState.prototype = {
   		var i;    
 		for (i = 0; i < this.flagGroup.length; i++)     
 		{ 
-			this.flagGroup['children'][i].y -= 1;
+			this.flagGroup['children'][i].y -= 2;
 		}
   	},
 
@@ -115,12 +121,29 @@ Game.GameState.prototype = {
     		this.secondX
     	];
 
+    	// adds flags to the flag group
   		for (var i = 0; i < this.pointsX.length; i++) {
 		    this.flagGroup.create(this.pointsX[i], this.game.world.height, 'flag');
 		}
 
+		// work out position for the trees
+		this.getTreePosition();
+		// test if tree position came back as an array or not
+		if (Array.isArray(this.treePosition)) {
+			console.log('Tree position is array');
+			for (var i = 0; i < this.treePosition.length; i++) {
+			    this.treeGroup.create(this.treePosition[i], this.game.world.height, 'tree');
+			}
+		} else {
+			console.log('Tree position is not an array');
+			this.treeGroup.create(this.treePosition, this.game.world.height, 'tree');
+		}
+
 		// remove old flags if past a certain point
     	this.destroyOldFlags();
+
+    	// rmove old trees if past a certain point
+    	this.destroyOldTrees();
   	},
 
   	getRandomPositionX: function() {
@@ -139,20 +162,75 @@ Game.GameState.prototype = {
   		}
   	},
 
+  	doTreesMovement: function() {
+  		var i;    
+		for (i = 0; i < this.treeGroup.length; i++)     
+		{ 
+			this.treeGroup['children'][i].y -= 2;
+		}
+  	},
+
+  	treesGroupCreate: function() {
+    	//  Here we create the group
+    	this.treeGroup = this.game.add.group();
+    	this.physics.arcade.enable( this.treeGroup );
+  	},
+
+  	getTreePosition: function() {
+  		if (this.randX < 300) {
+  			// if the first random point falls to the left we create a tree to the right of the second point
+  			this.treePosition = this.secondX + 50;
+  		} else if (this.randX > (this.world.width - 300)) {
+  			// if the first random point falls to the right we create a tree to the left of the second point
+  			this.treePosition = this.secondX - 150;
+  		} else if (this.randX > 300 && this.randX < this.game.world.centerX) {
+  			// if the tree falls roughly in the middle we create 2 trees
+  			this.treePosition = [
+  				this.randX - 150,
+  				this.secondX + 50
+  			];
+  		} else if (this.randX < (this.world.width - 300) && this.randX > this.game.world.centerX) {
+  			// if the tree falls roughly in the middle we create 2 trees
+  			this.treePosition = [
+  				this.randX + 50,
+  				this.secondX - 150
+  			];
+  		}
+  		// console.log('Tree pos: ' + this.treePosition);
+  		// console.log('1st random X: ' + this.randX);
+  		// console.log('2nd random X: ' + this.secondX);
+  	},
+
 	destroyOldFlags: function() {
 		var i;    
 		for (i = 0; i < this.flagGroup.length; i++)     
 		{        
 			if (this.flagGroup['children'][i].y <= 50) {
 				this.flagGroup['children'][i].destroy();
-				console.log('flag destroyed');
+				// console.log('flag destroyed');
 			}
 			if (this.flagGroup['children'][i].y <= 50) {
 				this.flagGroup['children'][i].destroy();
-				console.log('flag destroyed');
+				// console.log('flag destroyed');
 			}
-			console.log(this.flagGroup['children'][i].y);
+			// console.log(this.flagGroup['children'][i].y);
 		}
-	}  	
+	},
+
+	destroyOldTrees: function() {
+		var i;    
+		for (i = 0; i < this.treeGroup.length; i++)     
+		{        
+			if (this.treeGroup['children'][i].y <= 50) {
+				this.treeGroup['children'][i].destroy();
+				// console.log('tree destroyed');
+			}
+			if (this.treeGroup['children'][i].y <= 50) {
+				this.treeGroup['children'][i].destroy();
+				// console.log('tree destroyed');
+			}
+			// console.log(this.treeGroup['children'][i].y);
+		}
+	}  	  	
 
 };
