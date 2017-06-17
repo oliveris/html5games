@@ -5,6 +5,9 @@ window.onload = function() {
 	// var game = new Phaser.Game(640, 360, Phaser.AUTO);
 	var game = new Phaser.Game( 700, 1000, Phaser.CANVAS, 'game-container' );
 
+	// scaling for cross devices
+	// var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, 'game-container');
+
 	// add the boot
 	game.state.add('Boot', Game.Boot);
 
