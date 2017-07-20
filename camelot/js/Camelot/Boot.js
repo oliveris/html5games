@@ -10,6 +10,9 @@ Game.Boot.prototype = {
 		
 		this.input.maxPointers = 1;
 
+		// set the canvas background to Camelots grey
+		this.stage.backgroundColor = '#f4f3f1';
+
 		this.stage.disableVisibilityChange = true;
 
 		// reponsiveness of the game

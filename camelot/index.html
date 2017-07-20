@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>SKI avoider</title>
+    <title>Camelot - Hotpicks</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -21,16 +21,25 @@
       body {
         margin: 0px;
         padding: 0px;
-        background: #000000;
+        background: #ffffff;
       }
       canvas {
         margin: auto;
         margin-top: 50px;
       }
+      .camelot-border {
+        max-width: 1010px !important;
+        max-height: 1010px !important;
+        margin: auto;
+        margin-top: 50px;
+        border: 5px solid #e5e5e5;
+      }
       #game-container {
-        max-width: 700px !important;
+        max-width: 1000px !important;
         max-height: 1000px !important;
         margin: auto;
+        margin-left: -1px;
+        margin-top: -1px;
       }
     </style>
 
@@ -43,8 +52,10 @@
   </head>
   <body>
     
-    <!-- Game Container -->
-    <div id="game-container"></div>
+    <div class="camelot-border">
+        <!-- Game Container -->
+        <div id="game-container"></div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
